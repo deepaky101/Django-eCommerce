@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&family=Noto+Sans+JP:wght@100..900&family=Quicksand:wght@300..700&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 
     --primaryColor: #004141;
+
+    font-family: "Noto Sans JP", sans-serif;
 }
 
 .fc{
@@ -24,8 +28,17 @@ header, footer{
     height: 10vh;
 }
 
+header{
+    position: sticky;
+    top: 0;
+}
+
 .logo img{
     filter: invert(1);
+}
+
+.right{
+    gap: 2rem;
 }
 
 ul{
@@ -47,7 +60,7 @@ ul{
 
 /* ========================================= */
 
-main{
+.mainSection{
     min-height: 85vh;
 }
 

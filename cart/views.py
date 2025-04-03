@@ -1,15 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Item
 from store.models import Product
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+@login_required
 def Cart(request):
-    cart_items = Item.objects.all()
+    cart_items = Item.objects.filter(user = request.user)
     return render(request, 'cart/cart.html', {'cart_items' : cart_items})
 
+
+@login_required
 def Add_To_Cart(request, product_id):
     product = get_object_or_404(Product, id = product_id)
-    cart_item, created = Item.objects.get_or_create(product = product)
+    cart_item, created = Item.objects.get_or_create(user = request.user ,product = product)
     if not created:
         cart_item.quantity += 1
         cart_item.save()
@@ -17,7 +22,7 @@ def Add_To_Cart(request, product_id):
 
 def Add_To_Cart_on_cart_page(request, product_id):
     product = get_object_or_404(Product, id = product_id)
-    cart_item, created = Item.objects.get_or_create(product = product)
+    cart_item, created = Item.objects.get_or_create(user = request.user ,product = product)
     if not created:
         cart_item.quantity += 1
         cart_item.save()
@@ -34,5 +39,9 @@ def Remove_To_Cart(request, product_id):
     return redirect('cart')
         
 def Cart_Length(request):
-    count = Item.objects.all().count()
+    if request.user.is_authenticated:
+        count = Item.objects.filter(user = request.user).count()
+
+    else:
+        count = 0
     return {'count': count}

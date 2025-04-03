@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/ac6bf4de74.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/layout.css?{% now "U" %}">
     {% block css %}{% endblock %}
     <title>
@@ -17,20 +18,39 @@
             <img width='150' src="/static/images/mainLogo.png" alt="logo">
         </a>
 
-        <ul class='fr'>
-            <li><a href="{% url "cart" %}" class='fr cartLink'>
-                <img width='30' src="/static/images/Cart.png" alt="cartLogo">
-                <p>Cart</p>
-                <p class='cartLength'>{{count}}</p>
-            </a></li>
-        </ul>
+        <div class="right fr">
+            <ul class='fr'>
+                <li><a href="{% url "cart" %}" class='fr cartLink'>
+                    <img width='30' src="/static/images/Cart.png" alt="cartLogo">
+                    <p>Cart</p>
+                    <p class='cartLength'>{{count}}</p>
+                </a></li>
+            </ul>
+    
+            {% if user.is_authenticated %}
+                <p>{{user.username}}</p>
+                <a href="{% url "logout" %}">
+                    <button>Logout</button>
+                </a>
+            {% else %}
 
-        <button>Sign Up</button>
+                <div>
+                    <a href="{% url "signup" %}">
+                        <button>Sign Up</button>
+                    </a>
+                    <a href="{% url "login" %}">
+                        <button>Login</button>
+                    </a>
+                    
+                </div>
+
+            {% endif %}
+        </div>
     </header>
 
-    <main class='fc'>
+    <div class='mainSection'>
         {% block main %}{% endblock %}
-    </main>
+    </div>
 
     <footer class='fr'>This is Footer</footer>
 </body>
