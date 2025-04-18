@@ -27,24 +27,32 @@
                 </a></li>
             </ul>
     
-            {% if user.is_authenticated %}
-                <p>{{user.username}}</p>
-                <a href="{% url "logout" %}">
-                    <button>Logout</button>
-                </a>
-            {% else %}
+            {% block is_login %}
 
-                <div>
-                    <a href="{% url "signup" %}">
-                        <button>Sign Up</button>
-                    </a>
-                    <a href="{% url "login" %}">
-                        <button>Login</button>
-                    </a>
-                    
+                {% if user.is_authenticated %}
+                
+                <div id='show' class='fr'> 
+
+                    {% if user.userprofile.profile_image.url or user.userprofile.profile_image %}
+                        <img class='user_image' width='40' src="{{user.userprofile.profile_image.url}}" alt="img">
+                    {% else %}
+                        <img class='user_image' width='40' src="../../media/profile_image/default.jpg" alt="img">
+                    {% endif %}
+
+                    <div class="fc dropdown">
+                        <p class='dropdown_child'>{{user.username}}</p>
+                        <a class='dropdown_child' href="{% url "profile" %}">Profile</a>
+                        <a class='dropdown_child' href="{% url "logout" %}">Logout</a>
+                    </div>
                 </div>
 
-            {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}"><button>Login</button></a>
+                    <a href="{% url 'signup' %}"><button>Sign Up</button></a>
+                {% endif %}
+
+            {% endblock %}
+
         </div>
     </header>
 
